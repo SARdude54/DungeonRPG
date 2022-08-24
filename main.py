@@ -4,7 +4,6 @@ import sys
 from pygame.locals import *
 from data.entities import Knight, Chort, BigDemon
 from data.map import Map
-from data.image import load_image
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -13,12 +12,9 @@ window = pygame.display.set_mode((900, 700))
 level1_map = Map("data/level1_map.json")
 tile_list = level1_map.get_tile_list()
 
-player = Knight(window.get_width() // 2, window.get_width() // 2, "male")
-chort = Chort(100, 100)
-big_demon = BigDemon(300, 300)
-
-heart_frame = load_image("assets/ui/heart_frame.png", [250, 100], (255, 255, 255))
-full_heart = load_image("assets/ui/heart_ui/ui_heart_full.png", [50, 50], (255, 255, 255))
+player = Knight(window.get_width() // 2, window.get_width() // 2, 30, 50, "male")
+chort = Chort(100, 100, 50, 50)
+big_demon = BigDemon(300, 300, 75, 100)
 
 rendered_entities = [chort, big_demon]
 
@@ -76,15 +72,14 @@ if __name__ == "__main__":
         player.rect.x += player.dx
         player.rect.y += player.dy
 
+        for entity in rendered_entities:
+            if entity.rect.colliderect(player.rect):
+                print(True)
+
         level1_map.load_level1(window)
-        player.render(window)
         chort.render(window)
         big_demon.render(window)
-
-        window.blit(heart_frame, [0, 0])
-        window.blit(full_heart, [50, 30])
-        window.blit(full_heart, [100, 30])
-        window.blit(full_heart, [150, 30])
+        player.render(window)
 
         for event in pygame.event.get():
 
@@ -109,6 +104,10 @@ if __name__ == "__main__":
                     big_demon.events["idle"] = False
                     big_demon.events["right"] = True
 
+                if event.key == K_l:
+                    player.lose_life()
+                    print(player.health)
+
             if event.type == KEYUP:
                 if event.key == K_d:
                     player.events["idle"] = True
@@ -125,6 +124,8 @@ if __name__ == "__main__":
                 if event.key == K_RIGHT:
                     big_demon.events["idle"] = True
                     big_demon.events["right"] = False
+                if event.key == K_l:
+                    pass
 
             if event.type == QUIT:
                 pygame.quit()
