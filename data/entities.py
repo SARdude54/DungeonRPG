@@ -16,98 +16,29 @@ class Entity:
         :param width: int
         :param height: int
         """
+        self.x = x
+        self.y = y
+        self.dx = 0
+        self.dy = 0
         self.width = width
         self.height = height
         self.animation_count = 0
         self.health = 6
         self.FOLDER: str
         self.is_left = False
-        self.rect = Rect(x, y, self.width, self.height)
-        self.current_wall_tiles_colliding = []
+        self.rect = Rect(self.x, self.y, self.width, self.height)
 
         self.events = {
             "idle": True,
+            "moving": False,
             "left": False,
             "right": False,
             "up": False,
             "down": False,
-            "collision": {
-                "wall": {
-                    "top": False,
-                    "bottom": False,
-                    "left": False,
-                    "right": False
-                },
-                "entity": {
-                    "top": False,
-                    "bottom": False,
-                    "left": False,
-                    "right": False
-                }
-            }
         }
 
     def render(self, display: pygame.Surface):
         pass
-
-    def check_collisions(self):
-        if len(self.current_wall_tiles_colliding) != 0:
-            for tile in self.current_wall_tiles_colliding:
-                if tile['rect'].left < self.rect.right:
-                    self.events["collision"]["wall"]["right"] = True
-
-                if tile['rect'].right > self.rect.left:
-                    self.events["collision"]["wall"]["left"] = True
-
-        else:
-            self.set_wall_collision_false()
-
-    def set_wall_collision_false(self):
-        self.events["collision"]["wall"]["top"] = False
-        self.events["collision"]["wall"]["bottom"] = False
-        self.events["collision"]["wall"]["left"] = False
-        self.events["collision"]["wall"]["right"] = False
-
-    def set_moving_right(self):
-        self.events["idle"] = False
-        self.events["right"] = True
-
-    def set_moving_left(self):
-        self.events["idle"] = False
-        self.events["left"] = True
-
-    def set_moving_up(self):
-        self.events["idle"] = False
-        self.events["up"] = True
-
-    def set_moving_down(self):
-        self.events["idle"] = False
-        self.events["down"] = True
-
-    def set_horizontal_idle(self):
-        self.events["idle"] = True
-        self.events["right"] = False
-        self.events["left"] = False
-
-    def set_vertical_idle(self):
-        self.events["moving"] = True
-        self.events["down"] = False
-        self.events["up"] = False
-
-    def is_wall_colliding(self):
-        return self.events["collision"]["wall"]["top"] and self.events["collision"]["wall"]["bottom"] and self.events["collision"]["wall"]["right"] and self.events["collision"]["wall"]["left"]
-
-    def is_moving_right(self):
-        return not self.events["idle"] and self.events["right"]
-
-    def is_moving_left(self):
-        return not self.events["idle"] and self.events["left"]
-
-    def is_moving_up(self):
-        return not self.events["idle"] and self.events["up"]
-
-    def is_moving_down(self):
-        return not self.events["idle"] and self.events["down"]
 
 
 class Enemy(Entity):
@@ -146,6 +77,8 @@ class Chort(Enemy):
             self.animation_count = 0
 
         if self.events["idle"]:
+            self.dx = 0
+            self.dy = 0
             if self.is_left:
                 display.blit(self.idle[self.animation_count // 16], [self.rect.x, self.rect.y])
             else:
@@ -161,6 +94,11 @@ class Chort(Enemy):
         else:
             display.blit(self.idle[0], [self.rect.x, self.rect.y])
             self.animation_count = 0
+
+        if self.events["right"]:
+            self.dx = 5
+
+        self.x += self.dx
 
 
 class BigDemon(Enemy):
@@ -176,7 +114,7 @@ class BigDemon(Enemy):
         self.FOLDER = "assets/Entities/BigDemon"
         self.idle = load_animation(f"{self.FOLDER}/idle", "big_demon_idle_anim_f0", 4, [self.width, self.height], (255, 255, 255))
         self.run = load_animation(f"{self.FOLDER}/run", "big_demon_run_anim_f0", 4, [self.width, self.height], (255, 255, 255))
-        self.rect = pygame.Rect(x, y, 75, 100)
+        self.rect = pygame.Rect(self.x, self.y, 75, 100)
 
     def render(self, display: pygame.Surface):
         """
@@ -188,6 +126,8 @@ class BigDemon(Enemy):
             self.animation_count = 0
 
         if self.events["idle"]:
+            self.dx = 0
+            self.dy = 0
             if self.is_left:
                 display.blit(self.idle[self.animation_count // 16], [self.rect.x, self.rect.y])
             else:
@@ -203,6 +143,11 @@ class BigDemon(Enemy):
         else:
             display.blit(self.idle[0], [self.rect.x, self.rect.y])
             self.animation_count = 0
+
+        if self.events["right"]:
+            self.dx = 5
+
+        self.x += self.dx
 
 
 class Hero(Entity):
@@ -262,6 +207,8 @@ class Knight(Hero):
             self.animation_count = 0
 
         if self.events["idle"]:
+            self.dx = 0
+            self.dy = 0
             if self.is_left:
                 display.blit(self.male_idle_left[self.animation_count // 16], [self.rect.x, self.rect.y])
             else:
@@ -298,24 +245,13 @@ class Knight(Hero):
             display.blit(self.male_idle_left[0], [self.rect.x, self.rect.y])
             self.animation_count = 0
 
+        if self.events["right"]:
+            self.dx = 5
+        elif self.events["left"]:
+            self.dx = -5
 
-def collided(e1: Entity, e2: Entity) -> dict[str, bool]:
-    collision_list = {
-        "top": False,
-        "bottom": False,
-        "left": False,
-        "right": False
-    }
-    if e1.rect.colliderect(e2.rect) and e1.events["left"]:
-        collision_list["right"] = True
+        if self.events["up"]:
+            self.dy = -5
+        elif self.events["down"]:
+            self.dy = 5
 
-    if e1.rect.colliderect(e2.rect) and e1.events["right"]:
-        collision_list["left"] = True
-
-    if e1.rect.colliderect(e2.rect) and e1.events["down"]:
-        collision_list["top"] = True
-
-    if e1.rect.colliderect(e2.rect) and e1.events["up"]:
-        collision_list["bottom"] = True
-
-    return collision_list
