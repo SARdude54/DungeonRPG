@@ -34,23 +34,22 @@ if __name__ == "__main__":
 
         # checks for tile collisions
         for tile in tile_list:
-
             if player.rect.colliderect(tile["rect"]) and tile["type"] == "wall side mid left":
                 player.dx = 0
                 if player.events["right"]:
                     player.dx = 5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall side mid right" or tile["type"] == "wall corner bottom left"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall side mid right" or tile["type"] == "wall corner bottom left" or tile["type"] == "wall bottom"):
                 player.dx = 0
                 if player.events["left"]:
                     player.dx = -5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall top mid" or tile["type"] == "wall corner bottom left"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall mid" or tile["type"] == "wall right" or tile["type"] == "wall left" or tile["type"] == "wall corner bottom left"):
                 player.dy = 0
                 if player.events["down"]:
                     player.dy = 5*dt
 
-            if player.rect.colliderect(tile["rect"]) and tile["type"] == "wall bottom mid":
+            if player.rect.colliderect(tile["rect"]) and tile["type"] == "wall bottom":
                 player.dy = 0
                 if player.events["up"]:
                     player.dy = -5*dt

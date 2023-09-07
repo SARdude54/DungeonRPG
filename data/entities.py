@@ -27,6 +27,7 @@ class Entity:
         self.FOLDER: str
         self.is_left = False
         self.rect = Rect(self.x, self.y, self.width, self.height)
+        self.colliding_tiles = []
 
         self.events = {
             "idle": True,

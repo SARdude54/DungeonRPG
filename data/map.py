@@ -4,8 +4,8 @@ import json
 from pygame.locals import *
 from .image import load_image, load_animation
 
-# TODO: Simplify floor vars
-# TODO: Organize wall assets
+
+# TODO: Organize wall assets -> Wall sides
 # TODO: Add inner walls and columns
 # TODO: Decorate walls with banners and animate water fountains
 
@@ -18,33 +18,11 @@ WALL_MID = load_image("assets/tiles/wall/wall_mid.png", [50, 50], (255, 255, 255
 WALL_RIGHT = load_image("assets/tiles/wall/wall_right.png", [50, 50], (255, 255, 255))
 WALL_BOTTOM = load_image("assets/tiles/wall/wall_bottom.png", [50, 50], (255, 255, 255))
 
-WALL_SIDE_FRONT_LEFT = load_image("assets/tiles/wall/wall_side_front_left.png", [50, 50], (255, 255, 255))
-WALL_SIDE_FRONT_RIGHT = load_image("assets/tiles/wall/wall_side_front_right.png", [50, 50], (255, 255, 255))
+WALL_SIDE_LEFT = load_image("assets/tiles/wall/wall_side_left.png", [50, 50], (255, 255, 255))
+WALL_SIDE_RIGHT = load_image("assets/tiles/wall/wall_side_right.png", [16, 50], (255, 255, 255))
 
-WALL_SIDE_MID_LEFT = load_image("assets/tiles/wall/wall_side_mid_left.png", [50, 50], (255, 255, 255))
-WALL_SIDE_MID_RIGHT = load_image("assets/tiles/wall/wall_side_mid_right.png", [50, 50], (255, 255, 255))
-
-WALL_SIDE_TOP_LEFT = load_image("assets/tiles/wall/wall_side_top_left.png", [50, 50], (255, 255, 255))
-WALL_SIDE_TOP_RIGHT = load_image("assets/tiles/wall/wall_side_top_right.png", [50, 50], (255, 255, 255))
-
-WALL_SIDE_BOTTOM_LEFT = load_image("assets/tiles/wall/wall_side_top_left.png", [50, 50], (255, 255, 255),
-                                   flip_y=True)
-WALL_SIDE_BOTTOM_RIGHT = load_image("assets/tiles/wall/wall_side_top_right.png", [50, 50], (255, 255, 255),
-                                    flip_y=True)
-
-
-WALL_TOP_MID = load_image("assets/tiles/wall/wall_top_mid.png", [50, 50], (255, 255, 255))
-WALL_BOTTOM_MID = load_image("assets/tiles/wall/wall_top_mid.png", [50, 50], (255, 255, 255), flip_y=True)
-
-WALL_CORNER_BOTTOM_LEFT = load_image("assets/tiles/wall/wall_corner/wall_corner_bottom_left.png", [50, 50], (255, 255, 255))
-WALL_CORNER_BOTTOM_RIGHT = load_image("assets/tiles/wall/wall_corner/wall_corner_bottom_left.png", [50, 50], (255, 255, 255), flip_y=True)
-WALL_CORNER_TOP_LEFT = load_image("assets/tiles/wall/wall_corner/wall_corner_bottom_left.png", [50, 50], (255, 255, 255), flip_y=True)
-
-WALL_CORNER_LEFT = load_image("assets/tiles/wall/wall_corner/wall_corner_left.png", [50, 50], (255, 255, 255))
-
-CORNER_WALL_TOP_LEFT = load_image("assets/tiles/wall/wall_corner/wall_inner_corner_l_top_left.png", [50, 60], (255, 255, 255))
-CORNER_WALL_TOP_RIGHT = load_image("assets/tiles/wall/wall_corner/wall_inner_corner_l_top_left.png", [50, 60], (255, 255, 255), flip_y=True)
-
+WALL_SIDE_BARRIER_LEFT = load_image("assets/tiles/wall/wall_side_barrier_left.png", [50, 50], (255, 255, 255))
+WALL_SIDE_BARRIER_RIGHT = load_image("assets/tiles/wall/wall_side_barrier_right.png", [50, 50], (255, 255, 255))
 
 class Map:
     def __init__(self, map_path: str):
@@ -96,44 +74,17 @@ class Map:
             if tile["type"] == "wall bottom":
                 display.blit(WALL_BOTTOM, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side front left":
-                display.blit(WALL_SIDE_FRONT_LEFT, [tile["rect"].x, tile["rect"].y - 38])
+            if tile["type"] == "wall side barrier left":
+                display.blit(WALL_SIDE_BARRIER_LEFT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side front right":
-                display.blit(WALL_SIDE_FRONT_RIGHT, [tile["rect"].x, tile["rect"].y - 38])
+            if tile["type"] == "wall side barrier right":
+                display.blit(WALL_SIDE_BARRIER_RIGHT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side mid left":
-                display.blit(WALL_SIDE_MID_LEFT, [tile["rect"].x, tile["rect"].y])
+            if tile["type"] == "wall side right":
+                display.blit(WALL_SIDE_RIGHT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side mid right":
-                display.blit(WALL_SIDE_MID_RIGHT, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall side top left":
-                display.blit(WALL_SIDE_TOP_LEFT, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall side top right":
-                display.blit(WALL_SIDE_TOP_RIGHT, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall side bottom left":
-                display.blit(WALL_SIDE_BOTTOM_LEFT, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall side bottom right":
-                display.blit(WALL_SIDE_BOTTOM_RIGHT, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall top mid":
-                display.blit(WALL_TOP_MID, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall bottom mid":
-                display.blit(WALL_BOTTOM_MID, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall corner left":
-                display.blit(WALL_CORNER_LEFT, [tile['rect'].x, tile['rect'].y])
-
-            if tile["type"] == "wall corner bottom left":
-                display.blit(WALL_CORNER_BOTTOM_LEFT, [tile["rect"].x, tile["rect"].y])
-
-            if tile["type"] == "wall corner bottom right":
-                display.blit(WALL_CORNER_BOTTOM_RIGHT, [tile["rect"].x, tile["rect"].y])
+            if tile["type"] == "wall side left":
+                display.blit(WALL_SIDE_LEFT, [tile["rect"].x, tile["rect"].y])
 
             if tile["type"] == "floor1":
                 display.blit(FLOOR1, [tile["rect"].x, tile["rect"].y])
