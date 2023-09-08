@@ -39,17 +39,17 @@ if __name__ == "__main__":
                 if player.events["right"]:
                     player.dx = 5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall side mid right" or tile["type"] == "wall corner bottom left" or tile["type"] == "wall bottom"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall bottom left" or tile["type"] == "wall side barrier right"):
                 player.dx = 0
                 if player.events["left"]:
                     player.dx = -5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall mid" or tile["type"] == "wall right" or tile["type"] == "wall left" or tile["type"] == "wall corner bottom left"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall mid" or tile["type"] == "wall right" or tile["type"] == "wall left"):
                 player.dy = 0
                 if player.events["down"]:
                     player.dy = 5*dt
 
-            if player.rect.colliderect(tile["rect"]) and tile["type"] == "wall bottom":
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall bottom" or tile["type"] == "wall bottom left"):
                 player.dy = 0
                 if player.events["up"]:
                     player.dy = -5*dt

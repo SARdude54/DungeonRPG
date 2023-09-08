@@ -5,7 +5,7 @@ from pygame.locals import *
 from .image import load_image, load_animation
 
 
-# TODO: Organize wall assets -> Wall sides
+# TODO: Organize wall assets -> Test wall bottom right
 # TODO: Add inner walls and columns
 # TODO: Decorate walls with banners and animate water fountains
 
@@ -16,7 +16,9 @@ FLOOR2 = load_image("assets/tiles/floors/floor_2.png", [50, 50], (255, 255, 255)
 WALL_LEFT = load_image("assets/tiles/wall/wall_left.png", [50, 50], (255, 255, 255))
 WALL_MID = load_image("assets/tiles/wall/wall_mid.png", [50, 50], (255, 255, 255))
 WALL_RIGHT = load_image("assets/tiles/wall/wall_right.png", [50, 50], (255, 255, 255))
+
 WALL_BOTTOM = load_image("assets/tiles/wall/wall_bottom.png", [50, 50], (255, 255, 255))
+WALL_BOTTOM_LEFT= load_image("assets/tiles/wall/wall_bottom_left.png", [50, 50], (255, 255, 255))
 
 WALL_SIDE_LEFT = load_image("assets/tiles/wall/wall_side_left.png", [50, 50], (255, 255, 255))
 WALL_SIDE_RIGHT = load_image("assets/tiles/wall/wall_side_right.png", [16, 50], (255, 255, 255))
@@ -73,6 +75,9 @@ class Map:
 
             if tile["type"] == "wall bottom":
                 display.blit(WALL_BOTTOM, [tile["rect"].x, tile["rect"].y])
+
+            if tile["type"] == "wall bottom left":
+                display.blit(WALL_BOTTOM_LEFT, [tile["rect"].x, tile["rect"].y])
 
             if tile["type"] == "wall side barrier left":
                 display.blit(WALL_SIDE_BARRIER_LEFT, [tile["rect"].x, tile["rect"].y])
