@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
         # checks for tile collisions
         for tile in tile_list:
-            if player.rect.colliderect(tile["rect"]) and tile["type"] == "wall side barrier left":
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall side barrier left" or tile["type"] == "wall bottom right"):
                 player.dx = 0
                 if player.events["right"]:
                     player.dx = 5*dt
@@ -49,7 +49,7 @@ if __name__ == "__main__":
                 if player.events["down"]:
                     player.dy = 5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall bottom" or tile["type"] == "wall bottom left"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall bottom" or tile["type"] == "wall bottom left" or tile["type"] == "wall bottom right"):
                 player.dy = 0
                 if player.events["up"]:
                     player.dy = -5*dt
