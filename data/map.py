@@ -24,7 +24,7 @@ WALL_BOTTOM_RIGHT = load_image("assets/tiles/wall/wall_bottom_right.png", [50, 5
 
 
 WALL_SIDE_LEFT = load_image("assets/tiles/wall/wall_side_left.png", [50, 50], (255, 255, 255))
-WALL_SIDE_RIGHT = load_image("assets/tiles/wall/wall_side_right.png", [16, 50], (255, 255, 255))
+WALL_SIDE_RIGHT = load_image("assets/tiles/wall/wall_side_left.png", [50, 50], (255, 255, 255), flip_x=True)
 
 WALL_SIDE_BARRIER_LEFT = load_image("assets/tiles/wall/wall_side_barrier_left.png", [50, 50], (255, 255, 255))
 WALL_SIDE_BARRIER_RIGHT = load_image("assets/tiles/wall/wall_side_barrier_right.png", [50, 50], (255, 255, 255))
