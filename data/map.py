@@ -14,6 +14,10 @@ from .image import load_image, load_animation
 FLOOR1 = load_image("assets/tiles/floors/floor_1.png", [50, 50], (255, 255, 255))
 FLOOR2 = load_image("assets/tiles/floors/floor_2.png", [50, 50], (255, 255, 255))
 
+SPIKES = load_animation("assets/tiles/floors/spikes", "floor_spikes_anim_f0", 4, [50, 50], (255, 255, 255))
+
+spike_animation_count = 0
+
 WALL_LEFT = load_image("assets/tiles/wall/wall_left.png", [50, 50], (255, 255, 255))
 WALL_MID = load_image("assets/tiles/wall/wall_mid.png", [50, 50], (255, 255, 255))
 WALL_RIGHT = load_image("assets/tiles/wall/wall_right.png", [50, 50], (255, 255, 255))
@@ -66,6 +70,7 @@ class Map:
         :param display: pygame.Surface
         :return: None
         """
+        global spike_animation_count
         for tile in self.tile_list:
             if tile["type"] == "wall left":
                 display.blit(WALL_LEFT, [tile["rect"].x, tile["rect"].y])
@@ -102,6 +107,14 @@ class Map:
 
             if tile["type"] == "floor2":
                 display.blit(FLOOR2, [tile["rect"].x, tile["rect"].y])
+
+            if tile["type"] == "spikes":
+                if spike_animation_count + 1 >= 64:
+                    spike_animation_count = 0
+                else:
+                    display.blit(SPIKES[spike_animation_count//16], [tile["rect"].x, tile["rect"].y])
+                    spike_animation_count += 1
+
 
         if self.events["right"]:
             self.dx = 5
