@@ -5,8 +5,7 @@ from pygame.locals import *
 from .image import load_image, load_animation
 
 
-# TODO: Create a separate map making project using pygame for ui instead tkinter
-# TODO: Organize wall assets -> Test wall bottom right
+# TODO: add fountains and banners
 # TODO: Add inner walls and columns
 # TODO: Decorate walls with banners and animate water fountains
 
@@ -17,11 +16,6 @@ FLOOR2 = load_image("assets/tiles/floors/floor_2.png", [50, 50], (255, 255, 255)
 SPIKES = load_animation("assets/tiles/floors/spikes", "floor_spikes_anim_f0", 4, [50, 50], (255, 255, 255))
 
 spike_animation_count = 0
-
-red_f_mid_an_count = 0
-red_f_basin_an_count = 0
-blue_f_mid_an_count = 0
-blue_f_basin_an_count = 0
 
 WALL_LEFT = load_image("assets/tiles/wall/wall_left.png", [50, 50], (255, 255, 255))
 WALL_MID = load_image("assets/tiles/wall/wall_mid.png", [50, 50], (255, 255, 255))
@@ -42,6 +36,25 @@ FOUNTAIN_TOP = load_image("assets/tiles/wall/wall_fountain/wall_fountain_top.png
 
 RED_FOUNTAIN_BASIN = load_animation("assets/tiles/wall/wall_fountain/basin/red", "wall_fountain_basin_red_anim_f0", 3, [50, 50], (255, 255, 255))
 RED_FOUNTAIN_MID = load_animation("assets/tiles/wall/wall_fountain/mid/red", "wall_fountain_mid_red_anim_f0", 3, [50, 50], (255, 255, 255))
+
+red_f_mid_an_count = 0
+red_f_basin_an_count = 0
+
+BLUE_FOUNTAIN_BASIN = load_animation("assets/tiles/wall/wall_fountain/basin/blue", "wall_fountain_basin_blue_anim_f0", 3, [50, 50], (255, 255, 255))
+BLUE_FOUNTAIN_MID = load_animation("assets/tiles/wall/wall_fountain/mid/blue", "wall_fountain_mid_blue_anim_f0", 3, [50, 50], (255, 255, 255))
+
+
+blue_f_mid_an_count = 0
+blue_f_basin_an_count = 0
+
+WALL_GOO = load_image("assets/tiles/wall/wall_fountain/wall_goo.png", [50, 50], (255, 255, 255))
+WALL_GOO_BASE = load_image("assets/tiles/wall/wall_fountain/wall_goo_base.png", [50, 50], (255, 255, 255))
+
+BLUE_BANNER = load_image("assets/tiles/wall/wall_banner/wall_banner_blue.png", [50, 50], (255, 255, 255))
+GREEN_BANNER = load_image("assets/tiles/wall/wall_banner/wall_banner_green.png", [50, 50], (255, 255, 255))
+RED_BANNER = load_image("assets/tiles/wall/wall_banner/wall_banner_red.png", [50, 50], (255, 255, 255))
+YELLOW_BANNER = load_image("assets/tiles/wall/wall_banner/wall_banner_yellow.png", [50, 50], (255, 255, 255))
+
 
 
 class Map:
@@ -116,6 +129,18 @@ class Map:
                 if tile["type"] == "wall side left":
                     display.blit(WALL_SIDE_LEFT, [tile["rect"].x, tile["rect"].y])
 
+                if tile["type"] == "blue banner":
+                    display.blit(BLUE_BANNER, [tile["rect"].x, tile["rect"].y])
+
+                if tile["type"] == "green banner":
+                    display.blit(GREEN_BANNER, [tile["rect"].x, tile["rect"].y])
+
+                if tile["type"] == "red banner":
+                    display.blit(RED_BANNER, [tile["rect"].x, tile["rect"].y])
+
+                if tile["type"] == "yellow banner":
+                    display.blit(YELLOW_BANNER, [tile["rect"].x, tile["rect"].y])
+
                 if tile["type"] == "fountain top":
                     display.blit(FOUNTAIN_TOP, [tile["rect"].x, tile['rect'].y])
 
@@ -132,6 +157,26 @@ class Map:
                     else:
                         display.blit(RED_FOUNTAIN_BASIN[red_f_basin_an_count//30], [tile['rect'].x, tile['rect'].y])
                         red_f_basin_an_count += 1
+
+                if tile["type"] == "blue fountain mid":
+                    if blue_f_mid_an_count + 1 >= 90:
+                        blue_f_mid_an_count = 0
+                    else:
+                        display.blit(BLUE_FOUNTAIN_MID[blue_f_mid_an_count//30], [tile['rect'].x, tile['rect'].y])
+                        blue_f_mid_an_count += 1
+
+                if tile["type"] == "blue fountain basin":
+                    if blue_f_basin_an_count + 1 >= 90:
+                        blue_f_basin_an_count = 0
+                    else:
+                        display.blit(BLUE_FOUNTAIN_BASIN[blue_f_basin_an_count//30], [tile['rect'].x, tile['rect'].y])
+                        blue_f_basin_an_count += 1
+
+                if tile["type"] == "wall goo":
+                    display.blit(WALL_GOO, [tile["rect"].x, tile["rect"].y])
+
+                if tile["type"] == "wall goo base":
+                    display.blit(WALL_GOO_BASE, [tile["rect"].x, tile["rect"].y])
 
                 if tile["type"] == "floor1":
                     display.blit(FLOOR1, [tile["rect"].x, tile["rect"].y])

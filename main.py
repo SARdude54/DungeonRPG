@@ -21,6 +21,11 @@ big_demon = BigDemon(300, 300, 75, 100)
 
 rendered_entities = [big_demon]
 
+left_collision_tiles = ["wall side barrier left", "wall bottom right"]
+right_collision_tiles = ["wall side barrier right", "wall bottom left"]
+top_collision_tiles = ["wall mid", "wall right", "wall left", "red fountain mid", "wall goo", "blue fountain mid", "yellow banner", "red banner", "blue banner", "green banner"]
+bottom_collision_tiles = ["wall bottom", "wall bottom right", "wall bottom left"]
+
 last_time = time.time()
 
 if __name__ == "__main__":
@@ -33,22 +38,22 @@ if __name__ == "__main__":
 
         # checks for tile collisions
         for tile in tile_list:
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall side barrier left" or tile["type"] == "wall bottom right"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] in left_collision_tiles):
                 player.dx = 0
                 if player.events["right"]:
                     player.dx = 5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall bottom left" or tile["type"] == "wall side barrier right"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] in right_collision_tiles):
                 player.dx = 0
                 if player.events["left"]:
                     player.dx = -5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall mid" or tile["type"] == "wall right" or tile["type"] == "wall left"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] in top_collision_tiles):
                 player.dy = 0
                 if player.events["down"]:
                     player.dy = 5*dt
 
-            if player.rect.colliderect(tile["rect"]) and (tile["type"] == "wall bottom" or tile["type"] == "wall bottom left" or tile["type"] == "wall bottom right"):
+            if player.rect.colliderect(tile["rect"]) and (tile["type"] in bottom_collision_tiles):
                 player.dy = 0
                 if player.events["up"]:
                     player.dy = -5*dt
