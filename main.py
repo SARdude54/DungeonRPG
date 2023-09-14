@@ -27,7 +27,6 @@ if __name__ == "__main__":
     while True:
         window.fill((0, 0, 0))
         pygame.display.set_caption(str(clock.get_fps()))
-        clock.tick(60)
         dt = time.time() - last_time
         dt *= 60
         last_time = time.time()
@@ -83,12 +82,12 @@ if __name__ == "__main__":
             for entity in rendered_entities:
                 entity.rect.y += -5
 
-        # updates player postion
+        # updates player position
         player.rect.x += player.dx
         player.rect.y += player.dy
 
         # render entities and map
-        level1_map.render(window)
+        level1_map.render(window, window.get_width(), window.get_height())
         for entity in rendered_entities:
             entity.render(window)
         player.render(window)
@@ -188,4 +187,5 @@ if __name__ == "__main__":
                 sys.exit()
 
         pygame.display.update()
+        clock.tick(60)
 

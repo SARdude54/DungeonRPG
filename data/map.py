@@ -18,6 +18,11 @@ SPIKES = load_animation("assets/tiles/floors/spikes", "floor_spikes_anim_f0", 4,
 
 spike_animation_count = 0
 
+red_f_mid_an_count = 0
+red_f_basin_an_count = 0
+blue_f_mid_an_count = 0
+blue_f_basin_an_count = 0
+
 WALL_LEFT = load_image("assets/tiles/wall/wall_left.png", [50, 50], (255, 255, 255))
 WALL_MID = load_image("assets/tiles/wall/wall_mid.png", [50, 50], (255, 255, 255))
 WALL_RIGHT = load_image("assets/tiles/wall/wall_right.png", [50, 50], (255, 255, 255))
@@ -32,6 +37,12 @@ WALL_SIDE_RIGHT = load_image("assets/tiles/wall/wall_side_left.png", [50, 50], (
 
 WALL_SIDE_BARRIER_LEFT = load_image("assets/tiles/wall/wall_side_barrier_left.png", [50, 50], (255, 255, 255))
 WALL_SIDE_BARRIER_RIGHT = load_image("assets/tiles/wall/wall_side_barrier_right.png", [50, 50], (255, 255, 255))
+
+FOUNTAIN_TOP = load_image("assets/tiles/wall/wall_fountain/wall_fountain_top.png", [50, 50], (255, 255, 255))
+
+RED_FOUNTAIN_BASIN = load_animation("assets/tiles/wall/wall_fountain/basin/red", "wall_fountain_basin_red_anim_f0", 3, [50, 50], (255, 255, 255))
+RED_FOUNTAIN_MID = load_animation("assets/tiles/wall/wall_fountain/mid/red", "wall_fountain_mid_red_anim_f0", 3, [50, 50], (255, 255, 255))
+
 
 class Map:
     def __init__(self, map_path: str):
@@ -64,68 +75,87 @@ class Map:
             "down": False
         }
 
-    def render(self, display: pygame.Surface):
+    def render(self, display: pygame.Surface, display_width, display_height):
         """
         renders a  map from tile list
         :param display: pygame.Surface
         :return: None
         """
-        global spike_animation_count
+
+        global spike_animation_count, red_f_basin_an_count, red_f_mid_an_count, blue_f_mid_an_count, blue_f_basin_an_count
+
         for tile in self.tile_list:
-            if tile["type"] == "wall left":
-                display.blit(WALL_LEFT, [tile["rect"].x, tile["rect"].y])
+            if -50 < tile['rect'].center[0] < display_width + 50 and -50 < tile["rect"].center[1] < display_height + 50:
+                if tile["type"] == "wall left":
+                    display.blit(WALL_LEFT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall mid":
-                display.blit(WALL_MID, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall mid":
+                    display.blit(WALL_MID, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall right":
-                display.blit(WALL_RIGHT, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall right":
+                    display.blit(WALL_RIGHT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall bottom":
-                display.blit(WALL_BOTTOM, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall bottom":
+                    display.blit(WALL_BOTTOM, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall bottom left":
-                display.blit(WALL_BOTTOM_LEFT, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall bottom left":
+                    display.blit(WALL_BOTTOM_LEFT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall bottom right":
-                display.blit(WALL_BOTTOM_RIGHT, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall bottom right":
+                    display.blit(WALL_BOTTOM_RIGHT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side barrier left":
-                display.blit(WALL_SIDE_BARRIER_LEFT, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall side barrier left":
+                    display.blit(WALL_SIDE_BARRIER_LEFT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side barrier right":
-                display.blit(WALL_SIDE_BARRIER_RIGHT, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall side barrier right":
+                    display.blit(WALL_SIDE_BARRIER_RIGHT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side right":
-                display.blit(WALL_SIDE_RIGHT, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall side right":
+                    display.blit(WALL_SIDE_RIGHT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "wall side left":
-                display.blit(WALL_SIDE_LEFT, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "wall side left":
+                    display.blit(WALL_SIDE_LEFT, [tile["rect"].x, tile["rect"].y])
 
-            if tile["type"] == "floor1":
-                display.blit(FLOOR1, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "fountain top":
+                    display.blit(FOUNTAIN_TOP, [tile["rect"].x, tile['rect'].y])
 
-            if tile["type"] == "floor2":
-                display.blit(FLOOR2, [tile["rect"].x, tile["rect"].y])
+                if tile["type"] == "red fountain mid":
+                    if red_f_mid_an_count + 1 >= 90:
+                        red_f_mid_an_count = 0
+                    else:
+                        display.blit(RED_FOUNTAIN_MID[red_f_mid_an_count//30], [tile['rect'].x, tile['rect'].y])
+                        red_f_mid_an_count += 1
 
-            if tile["type"] == "spikes":
-                if spike_animation_count + 1 >= 64:
-                    spike_animation_count = 0
-                else:
-                    display.blit(SPIKES[spike_animation_count//16], [tile["rect"].x, tile["rect"].y])
-                    spike_animation_count += 1
+                if tile["type"] == "red fountain basin":
+                    if red_f_basin_an_count + 1 >= 90:
+                        red_f_basin_an_count = 0
+                    else:
+                        display.blit(RED_FOUNTAIN_BASIN[red_f_basin_an_count//30], [tile['rect'].x, tile['rect'].y])
+                        red_f_basin_an_count += 1
 
+                if tile["type"] == "floor1":
+                    display.blit(FLOOR1, [tile["rect"].x, tile["rect"].y])
+
+                if tile["type"] == "floor2":
+                    display.blit(FLOOR2, [tile["rect"].x, tile["rect"].y])
+
+                if tile["type"] == "spikes":
+                    if spike_animation_count + 1 >= 65:
+                        spike_animation_count = 0
+                    else:
+                        display.blit(SPIKES[spike_animation_count//16], [tile["rect"].x, tile["rect"].y])
+                        spike_animation_count += 1
 
         if self.events["right"]:
-            self.dx = 5
+            self.dx = 2
 
         elif self.events["left"]:
-            self.dx = -5
+            self.dx = -2
 
         if self.events["up"]:
-            self.dy = -5
+            self.dy = -2
         elif self.events["down"]:
-            self.dy = 5
+            self.dy = 2
 
         if self.events["idle"]:
             self.dx = 0
