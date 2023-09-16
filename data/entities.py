@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 from .image import load_animation
 from .ui import HealthBar, HotBar
+from .items import *
 
 # Entity module
 
@@ -188,7 +189,7 @@ class Knight(Hero):
         super(Knight, self).__init__(x, y, width, height, gender)
         self.FOLDER = "assets/Entities/knight"
 
-        # Load male assets
+        # Load hero images
         self.male_idle_right = load_animation(f"{self.FOLDER}/male/idle", "knight_m_idle_anim_f0", 4, [self.width, self.height], (255, 255, 255))
         self.male_idle_left = load_animation(f"{self.FOLDER}/male/idle", "knight_m_idle_anim_f0", 4, [self.width, self.height], (255, 255, 255), flip_x=True)
 
@@ -205,6 +206,9 @@ class Knight(Hero):
         self.female_run_left = load_animation(f"{self.FOLDER}/female/run", "knight_f_run_anim_f0", 4,
                                             [self.width, self.height], (255, 255, 255), flip_x=True)
 
+        self.hot_bar.add_item(BOW)
+        self.hot_bar.add_item(SWORD)
+        self.hot_bar.add_item(SPEAR)
 
     def render(self, display: pygame.Surface):
         """
@@ -295,4 +299,7 @@ class Knight(Hero):
             self.dy = -5
         elif self.events["down"]:
             self.dy = 5
+
+    def update(self):
+        pass
 

@@ -112,11 +112,11 @@ class HotBar:
 
         for i in range(0, 3):
             if self.get_items()[i] is not None and i == 0:
-                display.blit(self.get_items()[i], [47, 627])
+                display.blit(self.get_items()[i], [37, 627])
             if self.get_items()[i] is not None and i == 1:
-                display.blit(self.get_items()[i], [97, 627])
+                display.blit(self.get_items()[i], [87, 627])
             if self.get_items()[i] is not None and i == 2:
-                display.blit(self.get_items()[i], [147, 627])
+                display.blit(self.get_items()[i], [137, 627])
 
         display.blit(self.frame, [0, 575])
 

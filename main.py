@@ -15,7 +15,8 @@ level1_map = Map("data/level1_map.json")
 tile_list = level1_map.get_tile_list()
 
 # test entities
-player = Knight(window.get_width() // 2, window.get_width() // 2, 30, 50, "male")
+player = Knight(window.get_width() // 2, window.get_width() // 2, 30, 50, "male"
+                                                                          "")
 chort = Chort(100, 100, 50, 50)
 big_demon = BigDemon(300, 300, 75, 100)
 
@@ -90,6 +91,8 @@ if __name__ == "__main__":
         # updates player position
         player.rect.x += player.dx
         player.rect.y += player.dy
+
+        player.update()
 
         # render entities and map
         level1_map.render(window, window.get_width(), window.get_height())
