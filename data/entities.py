@@ -195,6 +195,17 @@ class Knight(Hero):
         self.male_run_right = load_animation(f"{self.FOLDER}/male/run", "knight_m_run_anim_f0", 4, [self.width, self.height], (255, 255, 255))
         self.male_run_left = load_animation(f"{self.FOLDER}/male/run", "knight_m_run_anim_f0", 4, [self.width, self.height], (255, 255, 255), flip_x=True)
 
+        self.female_idle_right = load_animation(f"{self.FOLDER}/female/idle", "knight_f_idle_anim_f0", 4,
+                                              [self.width, self.height], (255, 255, 255))
+        self.female_idle_left = load_animation(f"{self.FOLDER}/female/idle", "knight_f_idle_anim_f0", 4,
+                                             [self.width, self.height], (255, 255, 255), flip_x=True)
+
+        self.female_run_right = load_animation(f"{self.FOLDER}/female/run", "knight_f_run_anim_f0", 4,
+                                             [self.width, self.height], (255, 255, 255))
+        self.female_run_left = load_animation(f"{self.FOLDER}/female/run", "knight_f_run_anim_f0", 4,
+                                            [self.width, self.height], (255, 255, 255), flip_x=True)
+
+
     def render(self, display: pygame.Surface):
         """
         Renders knight
@@ -210,40 +221,69 @@ class Knight(Hero):
         if self.events["idle"]:
             self.dx = 0
             self.dy = 0
-            if self.is_left:
-                display.blit(self.male_idle_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+
+            if self.gender == "male":
+                if self.is_left:
+                    display.blit(self.male_idle_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+                else:
+                    display.blit(self.male_idle_right[self.animation_count // 16], [self.rect.x, self.rect.y])
             else:
-                display.blit(self.male_idle_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+                if self.is_left:
+                    display.blit(self.female_idle_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+                else:
+                    display.blit(self.female_idle_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+
             self.animation_count += 1
 
         elif self.events["right"]:
-            display.blit(self.male_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+            if self.gender == "male":
+                display.blit(self.male_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+            else:
+                display.blit(self.female_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
             self.animation_count += 1
 
             self.is_left = False
 
         elif self.events["left"]:
-            display.blit(self.male_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+            if self.gender == "male":
+                display.blit(self.male_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+            else:
+                display.blit(self.female_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
             self.animation_count += 1
 
             self.is_left = True
 
         elif self.events["up"]:
             if self.is_left:
-                display.blit(self.male_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+                if self.gender == "male":
+                    display.blit(self.male_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+                else:
+                    display.blit(self.female_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
             else:
-                display.blit(self.male_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+                if self.gender == "male":
+                    display.blit(self.male_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+                else:
+                    display.blit(self.female_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
             self.animation_count += 1
 
         elif self.events["down"]:
             if self.is_left:
-                display.blit(self.male_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+                if self.gender == "male":
+                    display.blit(self.male_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
+                else:
+                    display.blit(self.female_run_left[self.animation_count // 16], [self.rect.x, self.rect.y])
             else:
-                display.blit(self.male_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+                if self.gender == "male":
+                    display.blit(self.male_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
+                else:
+                    display.blit(self.female_run_right[self.animation_count // 16], [self.rect.x, self.rect.y])
             self.animation_count += 1
 
         else:
-            display.blit(self.male_idle_left[0], [self.rect.x, self.rect.y])
+            if self.gender == "male":
+                display.blit(self.male_idle_left[0], [self.rect.x, self.rect.y])
+            else:
+                display.blit(self.female_idle_left[0], [self.rect.x, self.rect.y])
             self.animation_count = 0
 
         if self.events["right"]:

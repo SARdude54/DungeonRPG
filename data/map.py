@@ -1,7 +1,6 @@
 import pygame
 import json
 
-from pygame.locals import *
 from .image import load_image, load_animation
 
 
@@ -94,6 +93,8 @@ class Map:
     def render(self, display: pygame.Surface, display_width, display_height):
         """
         renders a  map from tile list
+        :param display_height: int
+        :param display_width: int
         :param display: pygame.Surface
         :return: None
         """
