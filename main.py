@@ -23,7 +23,7 @@ rendered_entities = [big_demon]
 
 left_collision_tiles = ["wall side barrier left", "wall bottom right"]
 right_collision_tiles = ["wall side barrier right", "wall bottom left"]
-top_collision_tiles = ["wall mid", "wall right", "wall left", "red fountain mid", "wall goo", "blue fountain mid", "yellow banner", "red banner", "blue banner", "green banner"]
+top_collision_tiles = ["wall mid", "wall right", "wall left", "red fountain mid", "wall goo", "blue fountain mid", "yellow banner", "red banner", "blue banner", "green banner", "door left", "door open", "door closed", "door right"]
 bottom_collision_tiles = ["wall bottom", "wall bottom right", "wall bottom left"]
 
 last_time = time.time()

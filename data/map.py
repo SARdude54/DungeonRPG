@@ -5,9 +5,7 @@ from pygame.locals import *
 from .image import load_image, load_animation
 
 
-# TODO: add fountains and banners
 # TODO: Add inner walls and columns
-# TODO: Decorate walls with banners and animate water fountains
 
 # tile vars
 FLOOR1 = load_image("assets/tiles/floors/floor_1.png", [50, 50], (255, 255, 255))
@@ -55,6 +53,11 @@ GREEN_BANNER = load_image("assets/tiles/wall/wall_banner/wall_banner_green.png",
 RED_BANNER = load_image("assets/tiles/wall/wall_banner/wall_banner_red.png", [50, 50], (255, 255, 255))
 YELLOW_BANNER = load_image("assets/tiles/wall/wall_banner/wall_banner_yellow.png", [50, 50], (255, 255, 255))
 
+DOOR_LEFT = load_image("assets/tiles/doors/doors_frame_left.png", [50, 75], (255, 255, 255))
+DOOR_RIGHT = load_image("assets/tiles/doors/doors_frame_right.png", [50, 75], (255, 255, 255))
+DOOR_TOP = load_image("assets/tiles/doors/doors_frame_top.png", [50, 50], (255, 255, 255))
+DOOR_OPEN = load_image("assets/tiles/doors/doors_leaf_open.png", [50, 75], (255, 255, 255))
+DOOR_CLOSED = load_image("assets/tiles/doors/doors_leaf_closed.png", [50, 75], (255, 255, 255))
 
 
 class Map:
@@ -177,6 +180,21 @@ class Map:
 
                 if tile["type"] == "wall goo base":
                     display.blit(WALL_GOO_BASE, [tile["rect"].x, tile["rect"].y])
+
+                if tile["type"] == "door right":
+                    display.blit(DOOR_RIGHT, [tile["rect"].x, tile["rect"].y+25])
+
+                if tile["type"] == "door left":
+                    display.blit(DOOR_LEFT, [tile["rect"].x, tile["rect"].y+25])
+
+                if tile["type"] == "door top":
+                    display.blit(DOOR_TOP, [tile["rect"].x, tile["rect"].y+25])
+
+                if tile["type"] == "door open":
+                    display.blit(DOOR_OPEN, [tile["rect"].x, tile["rect"].y+25])
+
+                if tile["type"] == "door closed":
+                    display.blit(DOOR_CLOSED, [tile["rect"].x, tile["rect"].y+25])
 
                 if tile["type"] == "floor1":
                     display.blit(FLOOR1, [tile["rect"].x, tile["rect"].y])
